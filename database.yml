@@ -1,5 +1,4 @@
-
-version: '3.1'
+version: '3.5'
 
 services:
 
@@ -14,21 +13,36 @@ services:
       - 5432:5432
     volumes:
       - ./pgsql :/var/lib/postgresql/data
+    # network_mode: bridge
   
-  # Use root/example as user/password credentials
+  # Use root/mysql as user/password credentials
   mysql:
     container_name: mysql
     image: mysql:5.7
     restart: always
+    platform: linux/amd64
     environment:
       MYSQL_ROOT_PASSWORD: mysql
     ports:
-      - 3307:3307
+      - 3306:3306
     volumes:
       - ./mysql :/var/lib/mysql
+    # network_mode: bridge
 
   adminer:
+    container_name: adminer
     image: adminer
     restart: always
     ports:
       - 8888:8080
+    # network_mode: bridge
+
+
+  reids:
+    container_name: redis
+    image: redis:6.2
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis:/data
